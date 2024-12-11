@@ -13,18 +13,22 @@ const Stopwatch = () => {
   useEffect(() => {
     if (isRunning) {
       const id = setInterval(() => {
-        setTime((prevTime) => prevTime + 1);
+        setTime((time) => time + 1);
       }, 1000);
       setIntervalId(id);
-    } else if (!isRunning && intervalId) {
-      clearInterval(intervalId);
+    } else {
+     if(intervalId) clearInterval(intervalId);
     }
     return () => clearInterval(intervalId);
-  }, [isRunning, intervalId]);
+  }, [isRunning]);
   function timeFormat(time) {
-    const minutes = Math.floor(time / 60);
+    const hours=Math.floor((time/3600))
+    const hr=(hours<10)?('0'+hours):hours
+    const minutes = Math.floor((time / 3600)/60);
+    const m=(minutes<10)?('0'+minutes):minutes;
     const seconds = time % 60;
-    return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+    const s=(seconds<10)?('0'+seconds):seconds;
+    return `${hr}:${m}:${s}`;
   }
   return (
     <div>
